@@ -18,20 +18,20 @@ const PokemonPage = ({ previous, next }) => {
     return <ErrorMessage error={error} />
   }
 
-  const { type } = pokemon.types.find((type) => type.slot === 1)
-  const stats = pokemon.stats.map((stat) => ({
+  const { type } = pokemon.types.find(type => type.slot === 1)
+  const stats = pokemon.stats.map(stat => ({
     name: formatName(stat.stat.name),
     value: stat.base_stat
   })).reverse()
-  const normalAbility = pokemon.abilities.find((ability) => !ability.is_hidden)
-  const hiddenAbility = pokemon.abilities.find((ability) => ability.is_hidden === true)
+  const normalAbility = pokemon.abilities.find(ability => !ability.is_hidden)
+  const hiddenAbility = pokemon.abilities.find(ability => ability.is_hidden === true)
 
   return (
     <>
       <div className="links">
-        {previous && <Link to={`/pokemon/${previous.name}`}>Previous</Link>}
+        {previous ? <Link to={`/pokemon/${previous.name}`}>Previous</Link> : null}
         <Link to="/">Home</Link>
-        {next && <Link to={`/pokemon/${previous.name}`}>Next</Link>}
+        {next ? <Link to={`/pokemon/${next.name}`}>Next</Link> : null}
       </div>
       <div className={`pokemon-page pokemon-type-${type.name}`}>
         <div className="pokemon-image" style={{ backgroundImage: `url(${pokemon.sprites.front_default})` }} />
