@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pokemon-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pokemon
+  template:
+    metadata:
+      labels:
+        app: pokemon
+    spec:
+      initContainers:
+        - name: build-container
+          image: node:16
+          workingDir: /app
+          command: ["npm", "run", "build"]
+          volumeMounts:
+            - name: app-volume
+              mountPath: /app
+      containers:
+        - name: pokemon-deployment-container
+          image: gcr.io/cloud-playground-393514/pokemon-image:latest
+          ports:
+            - containerPort: 80
+      volumes:
+        - name: app-volume
+          emptyDir: {}
